@@ -1,4 +1,4 @@
-const API_BASE = '/api/game'
+const API_BASE = import.meta.env.VITE_API_URL || '/api/game'
 
 async function handleResponse(response) {
   const data = await response.json()
