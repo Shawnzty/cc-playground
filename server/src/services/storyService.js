@@ -34,7 +34,7 @@ Respond in JSON format:
   const userPrompt = `Start a new ${genre} adventure story. Set the scene and present the first situation where the player must make a choice.`;
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
@@ -100,7 +100,7 @@ Respond in JSON format:
   });
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     messages,
     response_format: { type: 'json_object' },
     temperature: 0.8,

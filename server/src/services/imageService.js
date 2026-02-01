@@ -9,11 +9,10 @@ async function generateImage(imagePrompt, genre) {
 
   try {
     const response = await openai.images.generate({
-      model: 'dall-e-3',
+      model: 'dall-e-2',
       prompt: enhancedPrompt,
       n: 1,
-      size: '1024x1024',
-      quality: 'standard',
+      size: '512x512',
     });
 
     return response.data[0].url;
