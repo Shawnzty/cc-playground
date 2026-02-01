@@ -12,7 +12,7 @@ function Game({ initialState, preferences, onRestart }) {
   // History with summaries for rollback menu
   const [history, setHistory] = useState([{
     step: 1,
-    summary: initialState.storyText.substring(0, 50) + (initialState.storyText.length > 50 ? '...' : ''),
+    summary: initialState.summary || initialState.storyText.substring(0, 50) + '...',
     storyText: initialState.storyText,
   }])
 
@@ -27,7 +27,7 @@ function Game({ initialState, preferences, onRestart }) {
       setGameState(response)
       setHistory(prev => [...prev, {
         step: response.step,
-        summary: response.storyText.substring(0, 50) + (response.storyText.length > 50 ? '...' : ''),
+        summary: response.summary || response.storyText.substring(0, 50) + '...',
         storyText: response.storyText,
       }])
     } catch (err) {
@@ -46,7 +46,7 @@ function Game({ initialState, preferences, onRestart }) {
       setGameState(response)
       setHistory(prev => [...prev, {
         step: response.step,
-        summary: response.storyText.substring(0, 50) + (response.storyText.length > 50 ? '...' : ''),
+        summary: response.summary || response.storyText.substring(0, 50) + '...',
         storyText: response.storyText,
       }])
     } catch (err) {

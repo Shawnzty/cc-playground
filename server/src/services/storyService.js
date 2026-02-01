@@ -23,6 +23,7 @@ Rules:
 Respond in JSON format:
 {
   "storyText": "The narrative paragraph",
+  "summary": "A brief one-line summary of this scene (max 60 chars, in ${language})",
   "imagePrompt": "A detailed description for image generation (in English, regardless of story language)",
   "choices": [
     {"id": "A", "text": "Choice description"},
@@ -74,6 +75,7 @@ Rules:
 Respond in JSON format:
 {
   "storyText": "The narrative paragraph",
+  "summary": "A brief one-line summary of this scene (max 60 chars, in ${language})",
   "imagePrompt": "A detailed description for image generation (in English, regardless of story language)",
   ${isFinalStep ? '"isEnding": true' : '"choices": [{"id": "A", "text": "Choice description"}, {"id": "B", "text": "Choice description"}, {"id": "C", "text": "Choice description"}]'}
 }`;
@@ -138,6 +140,7 @@ Rules:
 Respond in JSON format:
 {
   "storyText": "The narrative paragraph",
+  "summary": "A brief one-line summary of this scene (max 60 chars, in ${language})",
   "imagePrompt": "A detailed description for image generation (in English, regardless of story language)",
   ${isFinalStep ? '"isEnding": true' : '"choices": [{"id": "A", "text": "Choice description"}, {"id": "B", "text": "Choice description"}, {"id": "C", "text": "Choice description"}]'}
 }`;
