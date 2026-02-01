@@ -3,8 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 function StoryDisplay({ storyText, imageUrl, isLoading }) {
   const [displayedText, setDisplayedText] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
-  const [showImage, setShowImage] = useState(false)
   const prevTextRef = useRef('')
 
   // Typing animation effect
@@ -14,8 +12,6 @@ function StoryDisplay({ storyText, imageUrl, isLoading }) {
       prevTextRef.current = storyText
       setDisplayedText('')
       setIsTyping(true)
-      setImageLoaded(false)
-      setShowImage(false)
 
       let index = 0
       const speed = 20 // ms per character
@@ -34,13 +30,6 @@ function StoryDisplay({ storyText, imageUrl, isLoading }) {
     }
   }, [storyText])
 
-  // Handle image load - fade in after loaded
-  const handleImageLoad = () => {
-    setImageLoaded(true)
-    // Small delay before showing to ensure smooth fade
-    setTimeout(() => setShowImage(true), 50)
-  }
-
   // Skip typing animation on click
   const handleTextClick = () => {
     if (isTyping) {
@@ -49,24 +38,74 @@ function StoryDisplay({ storyText, imageUrl, isLoading }) {
     }
   }
 
+  // Show skeleton when loading
+  if (isLoading) {
+    return (
+      <div className="story-display loading">
+        {/* Image skeleton */}
+        <div className="story-image-container skeleton-container">
+          <div className="skeleton-image">
+            <div className="quill-loader">
+              <svg viewBox="0 0 50 50" className="quill-svg">
+                <path
+                  className="quill-pen"
+                  d="M10 40 L25 10 L30 15 L15 45 Z M25 10 Q35 5 45 8 L30 15 Z"
+                  fill="currentColor"
+                />
+                <path
+                  className="quill-line"
+                  d="M12 42 Q20 38 35 42"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                />
+              </svg>
+              <span className="loader-text">Writing your story...</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Text skeleton */}
+        <div className="story-text-container skeleton-container">
+          <div className="skeleton-text">
+            <div className="skeleton-line" style={{ width: '95%' }}></div>
+            <div className="skeleton-line" style={{ width: '88%' }}></div>
+            <div className="skeleton-line" style={{ width: '92%' }}></div>
+            <div className="skeleton-line" style={{ width: '75%' }}></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className={`story-display ${isLoading ? 'loading' : ''}`}>
-      <div className={`story-image-container ${showImage ? 'image-visible' : ''}`}>
+    <div className="story-display">
+      <div className="story-image-container">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt="Story scene"
-            className={`story-image ${showImage ? 'fade-in' : ''}`}
-            onLoad={handleImageLoad}
+            className="story-image"
           />
         ) : (
           <div className="image-placeholder">
-            <span>Image loading...</span>
-          </div>
-        )}
-        {(isLoading || !imageLoaded) && (
-          <div className="image-loading-overlay">
-            <div className="spinner"></div>
+            <div className="quill-loader">
+              <svg viewBox="0 0 50 50" className="quill-svg">
+                <path
+                  className="quill-pen"
+                  d="M10 40 L25 10 L30 15 L15 45 Z M25 10 Q35 5 45 8 L30 15 Z"
+                  fill="currentColor"
+                />
+                <path
+                  className="quill-line"
+                  d="M12 42 Q20 38 35 42"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  fill="none"
+                />
+              </svg>
+              <span className="loader-text">Painting the scene...</span>
+            </div>
           </div>
         )}
       </div>
