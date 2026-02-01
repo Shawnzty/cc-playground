@@ -34,7 +34,8 @@ An interactive text-based adventure game with AI-generated story content and ima
 - **Clickable Title**: Returns to onboarding/restart
 - **Step Rollback**: Click step number to see history menu with AI-generated summaries
 - **Typing Animation**: Story text reveals character-by-character
-- **Progressive Image Loading**: Text shows first, image fades in when ready
+- **Skeleton UI**: Placeholder boxes with shimmer effect during loading
+- **Quill Loader**: Animated quill pen writing animation while waiting
 - **Skip Animation**: Tap text area to skip typing animation
 
 ### Technical Features
@@ -47,14 +48,25 @@ An interactive text-based adventure game with AI-generated story content and ima
 
 ## Version History
 
+### 2024-02-01 - Skeleton UI & Quill Loader
+**Commit**: `feat: Add skeleton UI and quill loader animation`
+
+Improved loading experience with visual placeholders and themed animation:
+- Skeleton UI with shimmer effect matching final layout
+- Animated quill pen that "writes" while waiting
+- Different loading messages: "Writing your story..." / "Painting the scene..."
+- Removed non-working fade-in image code
+
+**Files changed**:
+- `client/src/components/StoryDisplay.jsx` - Added skeleton UI and quill loader
+- `client/src/styles/index.css` - Added skeleton, shimmer, and quill animation styles
+
 ### 2024-02-01 - Typing Animation & Progressive Loading
 **Commit**: `feat: Add typing animation and progressive image loading`
 
 Added smooth UX improvements to make wait times feel shorter:
 - Text appears character-by-character with blinking cursor
 - "Tap to skip" hint during animation
-- Image fades in smoothly after loading
-- Loading spinner visible until image ready
 
 **Files changed**:
 - `client/src/components/StoryDisplay.jsx` - Added typing effect with useEffect/useState
