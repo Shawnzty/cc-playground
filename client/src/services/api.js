@@ -50,3 +50,14 @@ export async function getGameHistory(sessionId) {
   const response = await fetch(`${API_BASE}/${sessionId}/history`)
   return handleResponse(response)
 }
+
+export async function rollbackToStep(sessionId, targetStep) {
+  const response = await fetch(`${API_BASE}/rollback`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sessionId, targetStep }),
+  })
+  return handleResponse(response)
+}

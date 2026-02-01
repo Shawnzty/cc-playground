@@ -185,7 +185,7 @@ router.get('/:sessionId', (req, res) => {
 });
 
 /**
- * Get game history
+ * Get game history with summaries for rollback menu
  * GET /api/game/:sessionId/history
  */
 router.get('/:sessionId/history', (req, res) => {
@@ -201,10 +201,55 @@ router.get('/:sessionId/history', (req, res) => {
     history: gameState.history.map(h => ({
       step: h.step,
       storyText: h.response.storyText,
+      // Create a short summary (first 50 chars of story)
+      summary: h.response.storyText.substring(0, 50) + (h.response.storyText.length > 50 ? '...' : ''),
       imageUrl: h.imageUrl,
       choiceMade: h.choice,
       choices: h.response.choices,
     })),
+  });
+});
+
+/**
+ * Rollback to a specific step
+ * POST /api/game/rollback
+ */
+router.post('/rollback', (req, res) => {
+  const { sessionId, targetStep } = req.body;
+
+  if (!sessionId || !targetStep) {
+    return res.status(400).json({ error: 'Missing sessionId or targetStep' });
+  }
+
+  const gameState = gameSessions.get(sessionId);
+  if (!gameState) {
+    return res.status(404).json({ error: 'Game session not found' });
+  }
+
+  // Validate target step
+  if (targetStep < 1 || targetStep > gameState.currentStep) {
+    return res.status(400).json({ error: 'Invalid target step' });
+  }
+
+  // Truncate history to target step
+  gameState.history = gameState.history.slice(0, targetStep);
+  gameState.currentStep = targetStep;
+
+  // Clear the choice on the last step (so user can choose again)
+  gameState.history[gameState.history.length - 1].choice = null;
+
+  gameState.updatedAt = new Date().toISOString();
+
+  const currentHistory = gameState.history[gameState.history.length - 1];
+
+  res.json({
+    sessionId,
+    step: gameState.currentStep,
+    maxSteps: gameState.maxSteps,
+    storyText: currentHistory.response.storyText,
+    imageUrl: currentHistory.imageUrl,
+    choices: currentHistory.response.choices || [],
+    isEnding: currentHistory.response.isEnding || false,
   });
 });
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { makeChoice, makeCustomChoice } from '../services/api'
+import { makeChoice, makeCustomChoice, rollbackToStep } from '../services/api'
 import { t } from '../services/translations'
 import StoryDisplay from '../components/StoryDisplay'
 import ChoiceButtons from '../components/ChoiceButtons'
@@ -9,7 +9,12 @@ function Game({ initialState, preferences, onRestart }) {
   const [gameState, setGameState] = useState(initialState)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [history, setHistory] = useState([initialState])
+  // History with summaries for rollback menu
+  const [history, setHistory] = useState([{
+    step: 1,
+    summary: initialState.storyText.substring(0, 50) + (initialState.storyText.length > 50 ? '...' : ''),
+    storyText: initialState.storyText,
+  }])
 
   const language = preferences.language
 
@@ -20,7 +25,11 @@ function Game({ initialState, preferences, onRestart }) {
     try {
       const response = await makeChoice(gameState.sessionId, choiceId)
       setGameState(response)
-      setHistory(prev => [...prev, response])
+      setHistory(prev => [...prev, {
+        step: response.step,
+        summary: response.storyText.substring(0, 50) + (response.storyText.length > 50 ? '...' : ''),
+        storyText: response.storyText,
+      }])
     } catch (err) {
       setError(err.message || 'Failed to continue story')
     } finally {
@@ -35,9 +44,29 @@ function Game({ initialState, preferences, onRestart }) {
     try {
       const response = await makeCustomChoice(gameState.sessionId, customText)
       setGameState(response)
-      setHistory(prev => [...prev, response])
+      setHistory(prev => [...prev, {
+        step: response.step,
+        summary: response.storyText.substring(0, 50) + (response.storyText.length > 50 ? '...' : ''),
+        storyText: response.storyText,
+      }])
     } catch (err) {
       setError(err.message || 'Failed to continue story')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleRollback = async (targetStep) => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await rollbackToStep(gameState.sessionId, targetStep)
+      setGameState(response)
+      // Truncate local history to match
+      setHistory(prev => prev.slice(0, targetStep))
+    } catch (err) {
+      setError(err.message || 'Failed to rollback')
     } finally {
       setLoading(false)
     }
@@ -48,7 +77,9 @@ function Game({ initialState, preferences, onRestart }) {
       <GameHeader
         step={gameState.step}
         onRestart={onRestart}
+        onRollback={handleRollback}
         language={language}
+        history={history}
       />
 
       <div className="game-content">
