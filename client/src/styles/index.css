@@ -24,7 +24,7 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-xl: 20px;
 
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
@@ -54,7 +54,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 10px 20px;
   font-size: 1rem;
   font-weight: 500;
   border: none;
@@ -92,6 +92,7 @@ body {
 .btn-ghost {
   background: transparent;
   color: var(--color-text-secondary);
+  padding: 8px 12px;
 }
 
 .btn-ghost:hover {
@@ -99,45 +100,50 @@ body {
   background: var(--color-bg-elevated);
 }
 
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
 /* Onboarding Styles */
 .onboarding {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 40px 20px;
-  max-width: 700px;
+  padding: 24px 12px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
 .onboarding-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .onboarding-header h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .onboarding-header p {
   color: var(--color-text-secondary);
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
 .progress-bar {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 }
 
 .progress-step {
-  width: 60px;
-  height: 4px;
+  width: 50px;
+  height: 3px;
   background: var(--color-bg-elevated);
   border-radius: 2px;
   transition: background 0.3s ease;
@@ -165,37 +171,38 @@ body {
 }
 
 .onboarding-step h2 {
-  font-size: 1.75rem;
-  margin-bottom: 8px;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
   text-align: center;
 }
 
 .step-description {
   color: var(--color-text-secondary);
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
 }
 
 .options-grid {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .language-grid {
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .genre-grid {
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 }
 
 .option-btn {
-  padding: 16px 20px;
+  padding: 12px 16px;
   background: var(--color-bg-secondary);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text);
-  font-size: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: var(--font-body);
@@ -215,18 +222,18 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 20px;
+  gap: 6px;
+  padding: 16px 12px;
 }
 
 .genre-emoji {
-  font-size: 2rem;
+  font-size: 1.75rem;
 }
 
 .options-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .tone-btn, .length-btn {
@@ -234,29 +241,29 @@ body {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  padding: 20px;
+  padding: 14px 16px;
 }
 
 .tone-label, .length-label {
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .tone-description, .length-description {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-text-secondary);
 }
 
 .custom-input {
   width: 100%;
-  padding: 16px 20px;
+  padding: 14px 16px;
   background: var(--color-bg-secondary);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text);
   font-size: 1rem;
   font-family: var(--font-body);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
 .custom-input:focus {
@@ -271,13 +278,13 @@ body {
 .summary {
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 16px;
   border: 1px solid var(--color-border);
 }
 
 .summary h3 {
-  font-size: 1.1rem;
-  margin-bottom: 16px;
+  font-size: 1rem;
+  margin-bottom: 12px;
   color: var(--color-primary);
 }
 
@@ -286,8 +293,9 @@ body {
 }
 
 .summary li {
-  padding: 8px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--color-border);
+  font-size: 0.95rem;
 }
 
 .summary li:last-child {
@@ -302,24 +310,25 @@ body {
 .onboarding-actions {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  margin-top: 40px;
-  padding-bottom: 40px;
+  gap: 12px;
+  margin-top: 24px;
+  padding-bottom: 24px;
 }
 
 .btn-start {
-  padding: 16px 48px;
-  font-size: 1.1rem;
+  padding: 14px 40px;
+  font-size: 1.05rem;
 }
 
 .error-message {
   background: rgba(248, 113, 113, 0.1);
   border: 1px solid var(--color-error);
   color: var(--color-error);
-  padding: 12px 20px;
+  padding: 10px 16px;
   border-radius: var(--radius-md);
-  margin: 20px 0;
+  margin: 16px 0;
   text-align: center;
+  font-size: 0.95rem;
 }
 
 /* Game Styles */
@@ -333,7 +342,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+  padding: 10px 12px;
   background: var(--color-bg-secondary);
   border-bottom: 1px solid var(--color-border);
 }
@@ -341,80 +350,58 @@ body {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .game-title {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
-.genre-badge {
-  background: var(--color-bg-elevated);
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  color: var(--color-text-secondary);
+.game-title:hover {
+  opacity: 0.8;
 }
 
 .header-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
 }
 
 .step-indicator {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .step-number {
   font-weight: 600;
 }
 
-.step-max {
-  color: var(--color-text-secondary);
-}
-
-.progress-track {
-  width: 200px;
-  height: 4px;
-  background: var(--color-bg-elevated);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  transition: width 0.5s ease;
-}
-
 .header-right {
   display: flex;
-  gap: 12px;
+  gap: 8px;
 }
 
 .game-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  max-width: 900px;
+  padding: 12px 8px;
+  max-width: 600px;
   margin: 0 auto;
   width: 100%;
 }
 
 /* Story Display */
 .story-display {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
 .story-display.loading {
@@ -425,7 +412,7 @@ body {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 512px;
+  max-width: 400px;
   margin: 0 auto;
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -457,8 +444,8 @@ body {
 }
 
 .spinner {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border: 3px solid var(--color-border);
   border-top-color: var(--color-primary);
   border-radius: 50%;
@@ -472,14 +459,14 @@ body {
 .story-text-container {
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 16px;
   border: 1px solid var(--color-border);
 }
 
 .story-text {
   font-family: var(--font-story);
-  font-size: 1.35rem;
-  line-height: 1.8;
+  font-size: 1.15rem;
+  line-height: 1.7;
   color: var(--color-text);
 }
 
@@ -490,28 +477,28 @@ body {
 
 .choice-prompt {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: var(--color-text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .choices-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .choice-btn {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
-  padding: 20px 24px;
+  padding: 14px 16px;
   background: var(--color-bg-secondary);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
@@ -521,7 +508,7 @@ body {
 .choice-btn:hover:not(:disabled) {
   border-color: var(--color-primary);
   background: var(--color-bg-elevated);
-  transform: translateX(8px);
+  transform: translateX(4px);
 }
 
 .choice-btn:disabled {
@@ -533,11 +520,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   background: var(--color-bg-elevated);
   border-radius: var(--radius-sm);
   font-weight: 600;
+  font-size: 0.9rem;
   color: var(--color-primary);
   flex-shrink: 0;
 }
@@ -546,18 +534,63 @@ body {
   flex: 1;
 }
 
+/* Custom Choice Input */
+.custom-choice-toggle {
+  border-style: dashed;
+  opacity: 0.8;
+}
+
+.custom-choice-toggle:hover:not(:disabled) {
+  opacity: 1;
+}
+
+.custom-choice-input {
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.custom-choice-input textarea {
+  width: 100%;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  resize: none;
+  margin-bottom: 10px;
+}
+
+.custom-choice-input textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.custom-choice-input textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.custom-choice-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 /* Ending Section */
 .ending-section {
   text-align: center;
-  padding: 48px 24px;
+  padding: 32px 16px;
   background: var(--color-bg-secondary);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
 }
 
 .ending-section h2 {
-  font-size: 2rem;
-  margin-bottom: 8px;
+  font-size: 1.75rem;
+  margin-bottom: 6px;
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -566,42 +599,49 @@ body {
 
 .ending-section p {
   color: var(--color-text-secondary);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .ending-actions {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
+  .onboarding {
+    padding: 16px 8px;
+  }
+
   .onboarding-header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .game-header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px 16px;
+    padding: 8px 10px;
   }
 
-  .header-left, .header-right {
-    width: 100%;
-    justify-content: center;
+  .game-title {
+    font-size: 1rem;
   }
 
   .game-content {
-    padding: 16px;
+    padding: 8px 6px;
   }
 
   .story-text {
-    font-size: 1.15rem;
-    padding: 20px;
+    font-size: 1.05rem;
   }
 
   .choice-btn {
-    padding: 16px;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .choice-letter {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
   }
 }

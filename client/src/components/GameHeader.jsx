@@ -1,35 +1,27 @@
-function GameHeader({ step, maxSteps, genre, onRestart, onViewHistory }) {
-  const progressPercent = maxSteps === 'unlimited'
-    ? 0
-    : Math.min((step / maxSteps) * 100, 100)
+import { t } from '../services/translations'
 
+function GameHeader({ step, genre, onRestart, language }) {
   return (
     <header className="game-header">
       <div className="header-left">
-        <h1 className="game-title">AI Story Adventure</h1>
-        <span className="genre-badge">{genre}</span>
+        <h1 className="game-title" onClick={onRestart} style={{ cursor: 'pointer' }}>
+          {t(language, 'appTitle')}
+        </h1>
       </div>
 
       <div className="header-center">
         <div className="step-indicator">
-          <span className="step-number">Step {step}</span>
-          {maxSteps !== 'unlimited' && (
-            <span className="step-max">/ {maxSteps}</span>
-          )}
+          <span className="step-number">
+            {language === 'Chinese'
+              ? `${t(language, 'step')}${step}${t(language, 'stepSuffix') || ''}`
+              : `${t(language, 'step')} ${step}`}
+          </span>
         </div>
-        {maxSteps !== 'unlimited' && (
-          <div className="progress-track">
-            <div
-              className="progress-fill"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-        )}
       </div>
 
       <div className="header-right">
         <button className="btn btn-ghost" onClick={onRestart}>
-          New Story
+          {t(language, 'newStory')}
         </button>
       </div>
     </header>

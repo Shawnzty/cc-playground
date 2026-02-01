@@ -109,6 +109,56 @@ router.post('/choose', async (req, res, next) => {
 });
 
 /**
+ * Make a custom choice and continue the story
+ * POST /api/game/custom-choice
+ */
+router.post('/custom-choice', async (req, res, next) => {
+  try {
+    const { sessionId, customText } = req.body;
+
+    if (!sessionId || !customText) {
+      return res.status(400).json({ error: 'Missing sessionId or customText' });
+    }
+
+    const gameState = gameSessions.get(sessionId);
+    if (!gameState) {
+      return res.status(404).json({ error: 'Game session not found' });
+    }
+
+    // Update the last history entry with the custom choice made
+    gameState.history[gameState.history.length - 1].choice = `Custom: ${customText}`;
+
+    // Generate next story segment with custom choice
+    const storyResponse = await storyService.continueStoryWithCustomChoice(gameState, customText);
+
+    // Generate image
+    const imageUrl = await imageService.generateImage(storyResponse.imagePrompt, gameState.preferences.genre);
+
+    // Update game state
+    gameState.currentStep += 1;
+    gameState.history.push({
+      step: gameState.currentStep,
+      response: storyResponse,
+      imageUrl,
+      choice: null,
+    });
+    gameState.updatedAt = new Date().toISOString();
+
+    res.json({
+      sessionId,
+      step: gameState.currentStep,
+      maxSteps: gameState.maxSteps,
+      storyText: storyResponse.storyText,
+      imageUrl,
+      choices: storyResponse.choices || [],
+      isEnding: storyResponse.isEnding || false,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * Get current game state
  * GET /api/game/:sessionId
  */

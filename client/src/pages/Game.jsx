@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { makeChoice } from '../services/api'
+import { makeChoice, makeCustomChoice } from '../services/api'
+import { t } from '../services/translations'
 import StoryDisplay from '../components/StoryDisplay'
 import ChoiceButtons from '../components/ChoiceButtons'
 import GameHeader from '../components/GameHeader'
@@ -9,6 +10,8 @@ function Game({ initialState, preferences, onRestart }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [history, setHistory] = useState([initialState])
+
+  const language = preferences.language
 
   const handleChoice = async (choiceId) => {
     setLoading(true)
@@ -25,19 +28,27 @@ function Game({ initialState, preferences, onRestart }) {
     }
   }
 
-  const handleViewHistory = () => {
-    // Could open a modal with full history
-    console.log('History:', history)
+  const handleCustomChoice = async (customText) => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await makeCustomChoice(gameState.sessionId, customText)
+      setGameState(response)
+      setHistory(prev => [...prev, response])
+    } catch (err) {
+      setError(err.message || 'Failed to continue story')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className="game">
       <GameHeader
         step={gameState.step}
-        maxSteps={gameState.maxSteps}
-        genre={preferences.genre}
         onRestart={onRestart}
-        onViewHistory={handleViewHistory}
+        language={language}
       />
 
       <div className="game-content">
@@ -53,15 +64,17 @@ function Game({ initialState, preferences, onRestart }) {
           <ChoiceButtons
             choices={gameState.choices}
             onChoice={handleChoice}
+            onCustomChoice={handleCustomChoice}
             disabled={loading}
+            language={language}
           />
         ) : (
           <div className="ending-section">
-            <h2>The End</h2>
-            <p>Your adventure has concluded.</p>
+            <h2>{t(language, 'theEnd')}</h2>
+            <p>{t(language, 'adventureConcluded')}</p>
             <div className="ending-actions">
               <button className="btn btn-primary" onClick={onRestart}>
-                Start New Adventure
+                {t(language, 'startNew')}
               </button>
             </div>
           </div>

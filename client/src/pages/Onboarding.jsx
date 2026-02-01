@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { startGame } from '../services/api'
+import { t } from '../services/translations'
 
 const LANGUAGES = [
   { id: 'English', label: 'English' },
@@ -12,29 +13,28 @@ const LANGUAGES = [
 ]
 
 const GENRES = [
-  { id: 'Fantasy', label: 'Fantasy', emoji: '🐉' },
-  { id: 'Sci-Fi', label: 'Sci-Fi', emoji: '🚀' },
-  { id: 'Horror', label: 'Horror', emoji: '👻' },
-  { id: 'Romance', label: 'Romance', emoji: '💕' },
-  { id: 'Mystery', label: 'Mystery', emoji: '🔍' },
-  { id: 'Adventure', label: 'Adventure', emoji: '🗺️' },
-  { id: 'Historical', label: 'Historical', emoji: '🏰' },
-  { id: 'Comedy', label: 'Comedy', emoji: '😄' },
+  { id: 'Fantasy', key: 'fantasy', emoji: '🐉' },
+  { id: 'Sci-Fi', key: 'sciFi', emoji: '🚀' },
+  { id: 'Horror', key: 'horror', emoji: '👻' },
+  { id: 'Romance', key: 'romance', emoji: '💕' },
+  { id: 'Mystery', key: 'mystery', emoji: '🔍' },
+  { id: 'Adventure', key: 'adventure', emoji: '🗺️' },
+  { id: 'Historical', key: 'historical', emoji: '🏰' },
+  { id: 'Comedy', key: 'comedy', emoji: '😄' },
 ]
 
 const TONES = [
-  { id: 'Light and Fun', label: 'Light & Fun', description: 'Casual, humorous, feel-good' },
-  { id: 'Serious and Dark', label: 'Serious & Dark', description: 'Intense, dramatic, suspenseful' },
-  { id: 'Epic and Grand', label: 'Epic & Grand', description: 'Heroic, sweeping, momentous' },
-  { id: 'Whimsical', label: 'Whimsical', description: 'Playful, quirky, imaginative' },
+  { id: 'Light and Fun', labelKey: 'lightFun', descKey: 'lightFunDesc' },
+  { id: 'Serious and Dark', labelKey: 'seriousDark', descKey: 'seriousDarkDesc' },
+  { id: 'Epic and Grand', labelKey: 'epicGrand', descKey: 'epicGrandDesc' },
+  { id: 'Whimsical', labelKey: 'whimsical', descKey: 'whimsicalDesc' },
 ]
 
 const STORY_LENGTHS = [
-  { id: 10, label: '~10 steps', description: 'Quick adventure' },
-  { id: 20, label: '~20 steps', description: 'Standard journey' },
-  { id: 40, label: '30-50 steps', description: 'Extended quest' },
-  { id: 75, label: '50-100 steps', description: 'Epic saga' },
-  { id: 'unlimited', label: 'Unlimited', description: 'Never-ending story' },
+  { id: 10, labelKey: 'short', descKey: 'shortDesc' },
+  { id: 35, labelKey: 'medium', descKey: 'mediumDesc' },
+  { id: 75, labelKey: 'long', descKey: 'longDesc' },
+  { id: 'unlimited', labelKey: 'unlimited', descKey: 'unlimitedDesc' },
 ]
 
 function Onboarding({ onStart }) {
@@ -46,8 +46,10 @@ function Onboarding({ onStart }) {
     genre: '',
     tone: '',
     customTheme: '',
-    storyLength: 20,
+    storyLength: 35,
   })
+
+  const lang = preferences.language
 
   const updatePreference = (key, value) => {
     setPreferences(prev => ({ ...prev, [key]: value }))
@@ -59,7 +61,7 @@ function Onboarding({ onStart }) {
       case 1: return preferences.genre
       case 2: return preferences.tone
       case 3: return preferences.storyLength
-      case 4: return true // Custom theme is optional
+      case 4: return true
       default: return false
     }
   }
@@ -88,21 +90,26 @@ function Onboarding({ onStart }) {
     }
   }
 
+  const getLengthLabel = (id) => {
+    const length = STORY_LENGTHS.find(l => l.id === id)
+    return length ? t(lang, length.labelKey) : ''
+  }
+
   const renderStep = () => {
     switch (step) {
       case 0:
         return (
           <div className="onboarding-step">
-            <h2>Choose Your Language</h2>
-            <p className="step-description">Select the language for your story</p>
+            <h2>{t(lang, 'chooseLanguage')}</h2>
+            <p className="step-description">{t(lang, 'chooseLanguageDesc')}</p>
             <div className="options-grid language-grid">
-              {LANGUAGES.map(lang => (
+              {LANGUAGES.map(item => (
                 <button
-                  key={lang.id}
-                  className={`option-btn ${preferences.language === lang.id ? 'selected' : ''}`}
-                  onClick={() => updatePreference('language', lang.id)}
+                  key={item.id}
+                  className={`option-btn ${preferences.language === item.id ? 'selected' : ''}`}
+                  onClick={() => updatePreference('language', item.id)}
                 >
-                  {lang.label}
+                  {item.label}
                 </button>
               ))}
             </div>
@@ -112,8 +119,8 @@ function Onboarding({ onStart }) {
       case 1:
         return (
           <div className="onboarding-step">
-            <h2>Choose Your Genre</h2>
-            <p className="step-description">What kind of story do you want to experience?</p>
+            <h2>{t(lang, 'chooseGenre')}</h2>
+            <p className="step-description">{t(lang, 'chooseGenreDesc')}</p>
             <div className="options-grid genre-grid">
               {GENRES.map(genre => (
                 <button
@@ -122,7 +129,7 @@ function Onboarding({ onStart }) {
                   onClick={() => updatePreference('genre', genre.id)}
                 >
                   <span className="genre-emoji">{genre.emoji}</span>
-                  <span>{genre.label}</span>
+                  <span>{t(lang, genre.key)}</span>
                 </button>
               ))}
             </div>
@@ -132,8 +139,8 @@ function Onboarding({ onStart }) {
       case 2:
         return (
           <div className="onboarding-step">
-            <h2>Choose Your Tone</h2>
-            <p className="step-description">Set the mood of your adventure</p>
+            <h2>{t(lang, 'chooseTone')}</h2>
+            <p className="step-description">{t(lang, 'chooseToneDesc')}</p>
             <div className="options-list">
               {TONES.map(tone => (
                 <button
@@ -141,8 +148,8 @@ function Onboarding({ onStart }) {
                   className={`option-btn tone-btn ${preferences.tone === tone.id ? 'selected' : ''}`}
                   onClick={() => updatePreference('tone', tone.id)}
                 >
-                  <span className="tone-label">{tone.label}</span>
-                  <span className="tone-description">{tone.description}</span>
+                  <span className="tone-label">{t(lang, tone.labelKey)}</span>
+                  <span className="tone-description">{t(lang, tone.descKey)}</span>
                 </button>
               ))}
             </div>
@@ -152,8 +159,8 @@ function Onboarding({ onStart }) {
       case 3:
         return (
           <div className="onboarding-step">
-            <h2>Story Length</h2>
-            <p className="step-description">How long should your adventure be?</p>
+            <h2>{t(lang, 'chooseLength')}</h2>
+            <p className="step-description">{t(lang, 'chooseLengthDesc')}</p>
             <div className="options-list">
               {STORY_LENGTHS.map(length => (
                 <button
@@ -161,8 +168,8 @@ function Onboarding({ onStart }) {
                   className={`option-btn length-btn ${preferences.storyLength === length.id ? 'selected' : ''}`}
                   onClick={() => updatePreference('storyLength', length.id)}
                 >
-                  <span className="length-label">{length.label}</span>
-                  <span className="length-description">{length.description}</span>
+                  <span className="length-label">{t(lang, length.labelKey)}</span>
+                  <span className="length-description">{t(lang, length.descKey)}</span>
                 </button>
               ))}
             </div>
@@ -172,23 +179,23 @@ function Onboarding({ onStart }) {
       case 4:
         return (
           <div className="onboarding-step">
-            <h2>Custom Theme (Optional)</h2>
-            <p className="step-description">Add specific elements you'd like in your story</p>
+            <h2>{t(lang, 'customTheme')}</h2>
+            <p className="step-description">{t(lang, 'customThemeDesc')}</p>
             <input
               type="text"
               className="custom-input"
-              placeholder="e.g., pirates, dragons, time travel, underwater city..."
+              placeholder={t(lang, 'customThemePlaceholder')}
               value={preferences.customTheme}
               onChange={(e) => updatePreference('customTheme', e.target.value)}
             />
             <div className="summary">
-              <h3>Your Adventure Settings</h3>
+              <h3>{t(lang, 'yourSettings')}</h3>
               <ul>
-                <li><strong>Language:</strong> {preferences.language}</li>
-                <li><strong>Genre:</strong> {preferences.genre}</li>
-                <li><strong>Tone:</strong> {preferences.tone}</li>
-                <li><strong>Length:</strong> {STORY_LENGTHS.find(l => l.id === preferences.storyLength)?.label}</li>
-                {preferences.customTheme && <li><strong>Theme:</strong> {preferences.customTheme}</li>}
+                <li><strong>{t(lang, 'language')}:</strong> {preferences.language}</li>
+                <li><strong>{t(lang, 'genre')}:</strong> {t(lang, GENRES.find(g => g.id === preferences.genre)?.key)}</li>
+                <li><strong>{t(lang, 'tone')}:</strong> {t(lang, TONES.find(to => to.id === preferences.tone)?.labelKey)}</li>
+                <li><strong>{t(lang, 'length')}:</strong> {getLengthLabel(preferences.storyLength)}</li>
+                {preferences.customTheme && <li><strong>{t(lang, 'theme')}:</strong> {preferences.customTheme}</li>}
               </ul>
             </div>
           </div>
@@ -202,8 +209,8 @@ function Onboarding({ onStart }) {
   return (
     <div className="onboarding">
       <div className="onboarding-header">
-        <h1>AI Story Adventure</h1>
-        <p>Create your own interactive story with AI-generated text and images</p>
+        <h1>{t(lang, 'appTitle')}</h1>
+        <p>{t(lang, 'appSubtitle')}</p>
       </div>
 
       <div className="progress-bar">
@@ -224,7 +231,7 @@ function Onboarding({ onStart }) {
       <div className="onboarding-actions">
         {step > 0 && (
           <button className="btn btn-secondary" onClick={handleBack} disabled={loading}>
-            Back
+            {t(lang, 'back')}
           </button>
         )}
         {step < 4 ? (
@@ -233,7 +240,7 @@ function Onboarding({ onStart }) {
             onClick={handleNext}
             disabled={!canProceed()}
           >
-            Next
+            {t(lang, 'next')}
           </button>
         ) : (
           <button
@@ -241,7 +248,7 @@ function Onboarding({ onStart }) {
             onClick={handleStart}
             disabled={loading}
           >
-            {loading ? 'Creating Your Adventure...' : 'Begin Adventure'}
+            {loading ? t(lang, 'creating') : t(lang, 'beginAdventure')}
           </button>
         )}
       </div>

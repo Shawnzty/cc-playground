@@ -30,6 +30,17 @@ export async function makeChoice(sessionId, choiceId) {
   return handleResponse(response)
 }
 
+export async function makeCustomChoice(sessionId, customText) {
+  const response = await fetch(`${API_BASE}/custom-choice`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ sessionId, customText }),
+  })
+  return handleResponse(response)
+}
+
 export async function getGameState(sessionId) {
   const response = await fetch(`${API_BASE}/${sessionId}`)
   return handleResponse(response)
